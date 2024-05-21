@@ -1,18 +1,18 @@
 // Variables globales
-const screen = document.getElementById("screen");
+const screen = document.getElementById("screen"); 
+const mcButton = document.getElementById("mc"); 
+const mrButton = document.getElementById("mr"); 
+const memoryButtons = [mcButton, mrButton];
 let memory = 0;
 let isOn = false;
-
-const mcButton = document.getElementById("mc");
-const mrButton = document.getElementById("mr");
 
 // Inicializar la calculadora apagada
 turnOffCalculator();
 
 // Event listeners
 document.getElementById("m-plus").addEventListener("click", addToMemory);
-document.getElementById("mc").addEventListener("click", clearMemory);
-document.getElementById("mr").addEventListener("click", recallMemory);
+mcButton.addEventListener("click", clearMemory);
+mrButton.addEventListener("click", recallMemory);
 document.getElementById("ce").addEventListener("click", clearScreenIfOn);
 document.getElementById("on").addEventListener("click", turnOnCalculator);
 document.getElementById("off").addEventListener("click", turnOffCalculator);
@@ -20,19 +20,12 @@ document.querySelectorAll(".calculator__button").forEach(button => {
   button.addEventListener("click", handleButtonClick);
 });
 
-// Functions
-function clearScreenIfOn() {
-  if (isOn) {
-    clearScreen();
-  }
-}
-
 // Encender la calculadora
 function turnOnCalculator() {
   isOn = true;
-  clearScreen();
+  clearScreen(); 
   screen.classList.remove("calculator__screen--off");
-  screen.textContent = "0";
+  screen.textContent = "0"; 
 }
 
 // Apagar la calculadora
@@ -40,8 +33,13 @@ function turnOffCalculator() {
   isOn = false;
   resetCalculator();
   screen.classList.add("calculator__screen--off");
-  screen.textContent = "OFF";
-  disableMemoryButtons(); // Deshabilitar los botones MC y MR
+  screen.textContent = "OFF"; 
+  disableMemoryButtons();
+}
+
+// Limpiar la pantalla si la calculadora está encendida
+function clearScreenIfOn() {
+  if (isOn) clearScreen();
 }
 
 // Limpiar la pantalla
@@ -49,34 +47,29 @@ function clearScreen() {
   screen.textContent = "0";
 }
 
-// Limpiar la calculadora y la memoria
+// Restablecer la calculadora y la memoria
 function resetCalculator() {
   clearScreen();
   memory = 0;
-  disableMemoryButtons(); // Deshabilitar los botones MC y MR
+  disableMemoryButtons();
 }
 
+// Habilitar los botones de memoria
 function enableMemoryButtons() {
-  mcButton.disabled = false;
-  mrButton.disabled = false;
-  mcButton.classList.remove("disabled");
-  mrButton.classList.remove("disabled");
+  memoryButtons.forEach(button => button.disabled = false);
 }
 
+// Deshabilitar los botones de memoria
 function disableMemoryButtons() {
-  mcButton.disabled = true;
-  mrButton.disabled = true;
-  mcButton.classList.add("disabled");
-  mrButton.classList.add("disabled");
+  memoryButtons.forEach(button => button.disabled = true);
 }
 
-
-// Agregar el último valor guardado a la memoria
+// Agregar el valor actual de la pantalla a la memoria
 function addToMemory() {
   if (isOn) {
-    memory = parseFloat(screen.textContent) || 0;
-    enableMemoryButtons(); // Habilitar los botones MC y MR
-    showTemporaryMessage("M+ added");
+    memory = parseFloat(screen.textContent);
+    enableMemoryButtons(); 
+    showTemporaryMessage("M+ added"); 
   }
 }
 
@@ -84,7 +77,7 @@ function addToMemory() {
 function clearMemory() {
   if (isOn) {
     memory = 0;
-    disableMemoryButtons(); // Deshabilitar los botones MC y MR
+    disableMemoryButtons();
     showTemporaryMessage("MC cleared");
   }
 }
@@ -93,41 +86,40 @@ function clearMemory() {
 function recallMemory() {
   if (isOn) {
     screen.textContent = memory;
-    showTemporaryMessage("MR recuperated");
+    showTemporaryMessage("MR recalled");
   }
 }
 
+// Manejar el clic en cualquier botón
 function handleButtonClick(event) {
-  // Si la calculadora está apagada no se hace nada
-  if (!isOn) return;
+  if (!isOn) return; // No hacer nada si la calculadora esta apagada
 
-  // Obtener el valor del botón
-  const value = event.target.textContent;
+  const value = event.target.textContent; // Obtener el valor del boton clicado
   if (isNumberOrDot(value)) {
-    handleNumberOrDot(value);
+    handleNumberOrDot(value); // Manejar números y el punto decimal
   } else if (value === "=") {
-    evaluateExpression();
+    evaluateExpression(); // Evaluar la expresión cuando se presiona "="
   } else if (isOperator(value)) {
-    handleOperator(value);
+    handleOperator(value); // Manejar operadores
   }
 }
 
+// Verificar si el valor es un numero o un punto decimal
 function isNumberOrDot(value) {
   return !isNaN(value) || value === ".";
 }
 
+// Manejar la entrada de números y punto decimal
 function handleNumberOrDot(value) {
-  if (screen.textContent === "0") {
-    screen.textContent = value;
-  } else {
-    screen.textContent += value;
-  }
+  screen.textContent === "0" ? screen.textContent = value : screen.textContent += value; // Agregar el valor a la pantalla
 }
 
+// Verificar si el valor es un operador
 function isOperator(value) {
-  return ["+", "-", "x", "÷", "%"].includes(value);
+  return ["+", "-", "x", "÷", "%"].includes(value); 
 }
 
+// Manejar la entrada de operadores
 function handleOperator(value) {
   screen.textContent += ` ${value} `;
 }
@@ -137,41 +129,26 @@ function evaluateExpression() {
     const expression = screen.textContent
       .replace(/x/g, "*")
       .replace(/÷/g, "/")
-      .replace(/%/g, "/100");
+      .replace(/%/g, "/100"); // Reemplazar operadores para la evaluación
 
-    // Verificar la división por cero
-    const exp = /\/ 0(?!\d)/;
-    if (exp.test(expression)) {
-      throw new Error("Division by zero");
-    }
+    if (/\/ 0(?!\d)/.test(expression)) throw new Error("Division by zero"); 
 
-    // Evaluación segura de la expresión
     const result = new Function(`return ${expression}`)();
-
-    // Asegurarse de que el resultado tenga decimales si es necesario
-    screen.textContent = Number.isInteger(result) ? result : result.toFixed(2);
+    screen.textContent = Number.isInteger(result) ? result : result.toFixed(2); // Mostrar el resultado
   } catch (error) {
     handleError(error);
   }
 }
 
-// Manejo de errores
+// Manejar errores de evaluación
 function handleError(error) {
-  if (error.message === "Division by zero") {
-    screen.textContent = "Division by zero";
-  } else {
-    screen.textContent = "Syntax error";
-  }
-  setTimeout(() => {
-    screen.textContent = "0";
-  }, 1000);
+  screen.textContent = error.message === "Division by zero" ? "Division by zero" : "Syntax error"; // Mostrar mensaje de error
+  setTimeout(() => screen.textContent = "0", 1000);
 }
 
-// Mostrar mensajes temporales M+ MC MR
+// Mostrar mensajes temporales en la pantalla
 function showTemporaryMessage(message) {
-  const originalText = screen.textContent;
+  const originalText = screen.textContent; // Guardar el texto original
   screen.textContent = message;
-  setTimeout(() => {
-    screen.textContent = originalText;
-  }, 1000);
+  setTimeout(() => screen.textContent = originalText, 1000);
 }
