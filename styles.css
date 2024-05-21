@@ -16,16 +16,9 @@ body {
     background-color: #e0e0e0;
 }
 
+
 #add {
     grid-row: span 2;
-}
-
-.title {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #33658A;
-    font-size: 2em;
-    animation: fadeIn 1s ease-in-out;
 }
 
 .calculator {
@@ -114,6 +107,18 @@ body {
 .calculator__button--off:hover,
 .calculator__button--mem:hover {
     background-color: #90a4ae;
+}
+
+#equal {
+    grid-column: span 2;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #33658A;
+    font-size: 2em;
+    animation: fadeIn 1s ease-in-out;
 }
 
 @keyframes fadeIn {
