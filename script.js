@@ -37,7 +37,7 @@ function turnOffCalculator() {
   isOn = false;
   resetCalculator();
   screen.classList.add("calculator__screen--off");
-  screen.textContent = "";
+  screen.textContent = "OFF";
 }
 
 // Limpiar la pantalla
@@ -118,7 +118,8 @@ function evaluateExpression() {
       .replace(/%/g, "/100");
 
     // Verificar la división por cero
-    if (/\/ 0(?!\d)/.test(expression)) {
+    const exp = /\/ 0(?!\d)/;
+    if (exp.test(expression)) {
       throw new Error("Division by zero");
     }
 
