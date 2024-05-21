@@ -3,6 +3,9 @@ const screen = document.getElementById("screen");
 let memory = 0;
 let isOn = false;
 
+const mcButton = document.getElementById("mc");
+const mrButton = document.getElementById("mr");
+
 // Inicializar la calculadora apagada
 turnOffCalculator();
 
@@ -38,6 +41,7 @@ function turnOffCalculator() {
   resetCalculator();
   screen.classList.add("calculator__screen--off");
   screen.textContent = "OFF";
+  disableMemoryButtons(); // Deshabilitar los botones MC y MR
 }
 
 // Limpiar la pantalla
@@ -49,12 +53,29 @@ function clearScreen() {
 function resetCalculator() {
   clearScreen();
   memory = 0;
+  disableMemoryButtons(); // Deshabilitar los botones MC y MR
 }
+
+function enableMemoryButtons() {
+  mcButton.disabled = false;
+  mrButton.disabled = false;
+  mcButton.classList.remove("disabled");
+  mrButton.classList.remove("disabled");
+}
+
+function disableMemoryButtons() {
+  mcButton.disabled = true;
+  mrButton.disabled = true;
+  mcButton.classList.add("disabled");
+  mrButton.classList.add("disabled");
+}
+
 
 // Agregar el último valor guardado a la memoria
 function addToMemory() {
   if (isOn) {
     memory = parseFloat(screen.textContent) || 0;
+    enableMemoryButtons(); // Habilitar los botones MC y MR
     showTemporaryMessage("M+ added");
   }
 }
@@ -63,6 +84,7 @@ function addToMemory() {
 function clearMemory() {
   if (isOn) {
     memory = 0;
+    disableMemoryButtons(); // Deshabilitar los botones MC y MR
     showTemporaryMessage("MC cleared");
   }
 }
