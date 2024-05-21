@@ -37,7 +37,7 @@ function turnOffCalculator() {
   isOn = false;
   resetCalculator();
   screen.classList.add("calculator__screen--off");
-  screen.textContent = "";
+  screen.textContent = "OFF";
 }
 
 // Limpiar la pantalla

@@ -25,6 +25,7 @@ body {
     margin-bottom: 20px;
     color: #33658A;
     font-size: 2em;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .calculator {
