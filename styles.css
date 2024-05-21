@@ -71,6 +71,23 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.calculator__button--mem:disabled {
+    background-color: #d3d3d3; 
+    color: #888888; 
+    cursor: not-allowed; 
+}
+
+/* Botones habilitados */
+.calculator__button--mem {
+    background-color: #4caf50; 
+    color: #ffffff; 
+}
+
+.calculator__button--mem:hover:enabled {
+    background-color: #45a049; 
+}
+
+
 .calculator__button--operator {
     background-color: #33658A;
     color: #fff;
