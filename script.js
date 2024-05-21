@@ -6,7 +6,7 @@ const memoryButtons = [mcButton, mrButton];
 let memory = 0;
 let isOn = false;
 
-// Inicializar la calculadora apagada
+// Inicializar la calculadora 
 turnOffCalculator();
 
 // Event listeners
@@ -99,6 +99,8 @@ function handleButtonClick(event) {
     handleNumberOrDot(value); // Manejar números y el punto decimal
   } else if (value === "=") {
     evaluateExpression(); // Evaluar la expresión cuando se presiona "="
+  } else if (value === "%") {
+    calculatePercentage(); // Calcular porcentaje
   } else if (isOperator(value)) {
     handleOperator(value); // Manejar operadores
   }
@@ -116,7 +118,7 @@ function handleNumberOrDot(value) {
 
 // Verificar si el valor es un operador
 function isOperator(value) {
-  return ["+", "-", "x", "÷", "%"].includes(value); 
+  return ["+", "-", "x", "÷"].includes(value); 
 }
 
 // Manejar la entrada de operadores
@@ -128,8 +130,7 @@ function evaluateExpression() {
   try {
     const expression = screen.textContent
       .replace(/x/g, "*")
-      .replace(/÷/g, "/")
-      .replace(/%/g, "/100"); // Reemplazar operadores para la evaluación
+      .replace(/÷/g, "/"); // Reemplazar operadores para la evaluación
 
     if (/\/ 0(?!\d)/.test(expression)) throw new Error("Division by zero"); 
 
@@ -140,15 +141,27 @@ function evaluateExpression() {
   }
 }
 
+// Calcular el porcentaje del valor actual en la pantalla
+function calculatePercentage() {
+  try {
+    const value = parseFloat(screen.textContent);
+    const result = value / 100;
+    screen.textContent = Number.isInteger(result) ? result : result.toFixed(2); // Mostrar el resultado
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 // Manejar errores de evaluación
 function handleError(error) {
   screen.textContent = error.message === "Division by zero" ? "Division by zero" : "Syntax error"; // Mostrar mensaje de error
-  setTimeout(() => screen.textContent = "0", 1000);
+  setTimeout(() => screen.textContent = "0", 500);
 }
 
 // Mostrar mensajes temporales en la pantalla
 function showTemporaryMessage(message) {
   const originalText = screen.textContent; // Guardar el texto original
   screen.textContent = message;
-  setTimeout(() => screen.textContent = originalText, 1000);
+  setTimeout(() => screen.textContent = originalText, 500);
 }
+
