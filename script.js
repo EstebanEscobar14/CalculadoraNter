@@ -32,7 +32,7 @@ function turnOnCalculator() {
   screen.textContent = "0";
 }
 
-// Apaga la calculadora
+// Apagar la calculadora
 function turnOffCalculator() {
   isOn = false;
   resetCalculator();
@@ -40,18 +40,18 @@ function turnOffCalculator() {
   screen.textContent = "";
 }
 
-// Limpia la pantalla
+// Limpiar la pantalla
 function clearScreen() {
   screen.textContent = "0";
 }
 
-// Limpia la calculadora y la memoria
+// Limpiar la calculadora y la memoria
 function resetCalculator() {
   clearScreen();
   memory = 0;
 }
 
-// Agrega el ultimo valor guardado si no hay valor por defecto es 0
+// Agregar el último valor guardado a la memoria
 function addToMemory() {
   if (isOn) {
     memory = parseFloat(screen.textContent) || 0;
@@ -59,7 +59,7 @@ function addToMemory() {
   }
 }
 
-// Limpiar el ultimo valor guardado
+// Limpiar la memoria
 function clearMemory() {
   if (isOn) {
     memory = 0;
@@ -67,7 +67,7 @@ function clearMemory() {
   }
 }
 
-// Recuperar el ultimo valor guardado
+// Recuperar el valor guardado en la memoria
 function recallMemory() {
   if (isOn) {
     screen.textContent = memory;
@@ -144,7 +144,7 @@ function handleError(error) {
   }, 1000);
 }
 
-// Mostrar los mensajes temporales M+ MC MR
+// Mostrar mensajes temporales M+ MC MR
 function showTemporaryMessage(message) {
   const originalText = screen.textContent;
   screen.textContent = message;
