@@ -118,7 +118,8 @@ function evaluateExpression() {
       .replace(/%/g, "/100");
 
     // Verificar la división por cero
-    if (/\/ 0(?!\d)/.test(expression)) {
+    const exp = /\/ 0(?!\d)/;
+    if (exp.test(expression)) {
       throw new Error("Division by zero");
     }
 
