@@ -102,6 +102,16 @@ body {
 .calculator__button:active {
     background-color: #ddd;
     transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+.calculator__button--mem:active,
+.calculator__button--on:active,
+.calculator__button--off:active,
+.calculator__button--operator:active {
+    background-color: #ccc; /* Color de fondo cuando se presiona */
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
 }
 
 .calculator__button--on,

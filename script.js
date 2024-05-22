@@ -67,9 +67,9 @@ function disableMemoryButtons() {
 // Agregar el valor actual de la pantalla a la memoria
 function addToMemory() {
   if (isOn) {
-    memory = parseFloat(screen.textContent);
-    enableMemoryButtons(); 
-    showTemporaryMessage("M+ added"); 
+    memory += parseFloat(screen.textContent);
+    enableMemoryButtons();
+    showTemporaryMessage("M+ added");
   }
 }
 
@@ -85,7 +85,7 @@ function clearMemory() {
 // Recuperar el valor guardado en la memoria
 function recallMemory() {
   if (isOn) {
-    screen.textContent = memory;
+    screen.textContent = screen.textContent === "0" ? memory.toString() : screen.textContent + memory.toString();
     showTemporaryMessage("MR recalled");
   }
 }
@@ -164,4 +164,3 @@ function showTemporaryMessage(message) {
   screen.textContent = message;
   setTimeout(() => screen.textContent = originalText, 500);
 }
-
